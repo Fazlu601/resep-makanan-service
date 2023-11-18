@@ -2,6 +2,12 @@
 >Silahkan klik tombol dibawah ini untuk mengunjungi sisi Front-End <br> 👇👇👇
 
 [![FrontEnd](https://img.shields.io/badge/FrontEnd-Kunjungi-087ea4?style=for-the-badge&logo=react&logoColor=white)](https://github.com/Fazlu601/resep-makanan-app)
+## **Fitur**
+- Autentikasi & Otorisasi
+- Create Resep Makanan (Include: Nama Bahan, Langkah penyajian)
+- Lihat Detail Bahan Makanan
+- Like Postingan Resep 1x per-account
+
 ## **Cara Instalasi & Pemakaian**
 1. Clone Repository dari terminal command prompt atau bash
 ```
@@ -100,9 +106,162 @@ php artisan ser
 ### **Authorization**
 - URL : ``http://127.0.0.1:8000/api/register``
 - METHOD : ``POST``
-![An old rock in the desert](/public/img/login.PNG "Shiprock, New Mexico by Beau Rogers")
+```
+axios.post(`$http://127.0.0.1:8000/api/register`, {
+      name : "Fazlu Rachman",
+      email : 'fazrlu9575@gmail.com', 
+      password : 'Fazlu12345',
+      password_confirmation : "Fazlu12345"
+}).then( res => {
+            const data = res.data;  
+            if(data) {
+                localStorage.setItem('TOKEN', JSON.stringify(data.token));
+                setSession(data)
+                navigate('/');
+            }
+        } ).catch( error => {
+            console.log(error);
+        } );
+```
 
 ### **Authenticate**
-- URL : ``http://127.0.0.1:8000/api/register``
+- URL : ``http://127.0.0.1:8000/api/login``
 - METHOD : ``POST``
-![An old rock in the desert](/public/img/login.PNG "Shiprock, New Mexico by Beau Rogers")
+```
+axios.post(`$http://127.0.0.1:8000/api/login`, {
+      email : 'fazrlu9575@gmail.com', 
+      password : 'Fazlu12345',
+}).then( res => {
+            const data = res.data;  
+            if(data) {
+                console.log(data);
+            }
+        } ).catch( error => {
+            console.log(error);
+        } );
+```
+
+### **Logout**
+- URL : ``http://127.0.0.1:8000/api/logout``
+- METHOD : ``POST``
+```
+axios.post(`$http://127.0.0.1:8000/api/login`, null, {
+     headers : {
+                "Authorization" : `Bearer your-token`
+                }
+}).then( res => {
+            const data = res.data;  
+            if(data) {
+               console.log(data);
+            }
+        } ).catch( error => {
+            console.log(error);
+        } );
+```
+
+### **Mengambil Data Resep Makanan**
+- URL : ``http://127.0.0.1:8000/api/resep-makanan``
+- METHOD : ``GET``
+```
+axios.get(`$http://127.0.0.1:8000/api/login`, null, {
+     headers : {
+                    "Authorization" : `Bearer your-token`
+                }
+}).then( res => {
+            const data = res.data;  
+            if(data) {
+                console.log(data);
+            }
+        } ).catch( error => {
+            console.log(error);
+        } );
+```
+
+### **Buat Data Resep Makanan**
+- URL : ``http://127.0.0.1:8000/api/resep-makanan``
+- METHOD : ``POST``
+```
+const formData = new FormData();
+formData.append('user_id', 1);
+formData.append('judul', 'Nasi Goreng');
+formData.append('deskripsi', 'Deskripsi...");
+formData.append('bahan', JSON.stringify([
+    user_id : 1,
+    resep_makanan_id : id-saat-ini,// id ini didapat setelah kita melakukan create di api laravel
+    nama_bahan : "nasi",
+]));
+formData.append('langkah', JSON.stringify([
+    user_id : 1,
+    resep_makanan_id : id-saat-ini,// id ini didapat setelah kita melakukan create di api laravel
+    langkah : "memasak nasi",
+]));
+formData.append('foto', [File Gambar]);
+
+        axios.post(`http://127.0.0.1:8000/api/resep-makanan`, formData, {
+            headers : {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer your-token`,
+            }
+        }).then( res => {
+            const data = res.data;
+            if(data) {
+              console.log(data);
+            }
+        } ).catch( error => {
+            console.log(error);
+        } );
+```
+
+### **Melihat Detail Data resep Makanan**
+- URL : ``http://127.0.0.1:8000/api/resep-makanan/1/show``
+- METHOD : ``GET``
+```
+axios.post(`http://127.0.0.1:8000/api/resep-makanan/1/show`, {
+     headers : {
+                    "Authorization" : `Bearer your-token`
+                }
+}).then( res => {
+            const data = res.data;  
+            if(data) {
+               console.log(data);
+            }
+        } ).catch( error => {
+            console.log(error);
+        } );
+```
+
+### **Melihat Detail Data resep Makanan**
+- URL : ``http://127.0.0.1:8000/api/resep-makanan/1/show``
+- METHOD : ``GET``
+```
+axios.get(`http://127.0.0.1:8000/api/resep-makanan/1/show`, {
+     headers : {
+                    "Authorization" : `Bearer your-token`
+                }
+}).then( res => {
+            const data = res.data;  
+            if(data) {
+               console.log(data);
+            }
+        } ).catch( error => {
+            console.log(error);
+        } );
+```
+
+### **Like Resep Makanan**
+- URL : ``http://127.0.0.1:8000/api/like``
+- METHOD : ``POST``
+```
+ axios.post(`http://127.0.0.1:8000/api/like`, {
+        user_id : 1,
+        resep_makanan_id : 1
+ }, {
+        headers : {
+            'Authorization' : `Bearer your-token`
+        }
+    }).then( res => {
+        if(res.data) {
+            console.log(data);
+        }
+} ).catch( err => console.log(err) );
+```

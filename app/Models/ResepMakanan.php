@@ -13,11 +13,13 @@ class ResepMakanan extends Model
 
     public function User()
     {
+          //Membuat relasi many to one ke data user berdasarkan referensi id
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function BahanPembuatan()
     {
+          //Membuat relasi one to many ke data bahan makanan berdasarkan referensi id
         return $this->hasMany(BahanPembuatan::class, 'resep_makanan_id');
     }
 

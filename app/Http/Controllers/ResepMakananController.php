@@ -23,14 +23,16 @@ class ResepMakananController extends Controller
         try {
             $validateData = $request->validate([
                 "user_id" => ["required"],
-                "judul" => ["required"],
-                "deskripsi" => ["required"],
+                "judul" => ["required", "min:5"],
+                "deskripsi" => ["required", "min:10"],
                 "bahan" => ["required"],
                 "langkah" => ["required"],
                 "foto" => ["required", "image", "mimes:jpg,png", "max:1024"]
             ], [
                 "judul.required" => "Field judul harus diisi.",
+                "judul.min" => "Judul harus berisi minimal 5 karakter",
                 "deskripsi.required" => "Field deskripsi harus diisi.",
+                "deskripsi.min" => "Deskripsi harus berisi minimal 10 karakter.",
                 "bahan.required" => "Field bahan harus diisi.",
                 "langkah.required" => "Field langkah harus diisi.",
                 "foto.required" => "Field foto harus diisi.",
